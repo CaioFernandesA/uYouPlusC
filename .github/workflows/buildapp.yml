@@ -106,6 +106,10 @@ jobs:
         id: prepare_youtube
         run: |
           wget "${{ inputs.decrypted_youtube_url }}" --no-verbose -O main/YouTube.ipa
+          if [ ! -f "main/YouTube.ipa" ]; then
+            echo "YouTube.ipa download failed"
+            exit 1
+          fi
           cd ${{ github.workspace }}/main
           mv YouTube.ipa YouTube.zip
           unzip -q YouTube.zip
@@ -155,3 +159,4 @@ jobs:
           name: v${{ env.YOUTUBE_VERSION }}-${{ env.UYOU_VERSION }}-(${{ github.run_number }})
           files: main/packages/*.ipa
           draft: ${{ env.DRAFT }}
+
